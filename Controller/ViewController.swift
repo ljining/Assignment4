@@ -102,9 +102,7 @@ extension ViewController {
     
     // 현재 상품 정보를 코어 데이터에 저장
     func saveProductToCoreData(product: RemoteProduct) {
-        guard let context = persistentContainer?.viewContext else {
-            return
-        }
+        guard let context = persistentContainer?.viewContext else { return }
         
         let newProduct = Product(context: context)
         newProduct.title = product.title
