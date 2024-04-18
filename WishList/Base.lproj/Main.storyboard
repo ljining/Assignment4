@@ -107,6 +107,9 @@
                                         <color key="tintColor" systemColor="systemGray2Color"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="Show Wish List"/>
+                                        <connections>
+                                            <action selector="showWishList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jaa-XF-cM6"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -149,7 +152,7 @@
         <!--WishListViewController-->
         <scene sceneID="cw8-SC-3AH">
             <objects>
-                <viewController title="WishListViewController" id="llj-kF-hwb" customClass="WishListTableViewController" customModule="WishList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WishListViewController" title="WishListViewController" id="llj-kF-hwb" customClass="WishListTableViewController" customModule="WishList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IRi-pw-BwL">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -159,7 +162,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="XGd-zg-3Jo">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="productCell" id="XGd-zg-3Jo">
                                         <rect key="frame" x="0.0" y="50" width="393" height="44.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XGd-zg-3Jo" id="sPj-H0-Pae">
@@ -173,6 +176,9 @@
                         <viewLayoutGuide key="safeArea" id="7jN-hL-bX2"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="wishListTableView" destination="JX7-FH-cVW" id="glS-gl-wGt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IGk-7R-GRe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

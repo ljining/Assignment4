@@ -8,6 +8,24 @@
 import UIKit
 import CoreData
 
+class DataManager {
+    static let shared = DataManager()
+    
+    let persistentContainer: NSPersistentContainer
+    var currentProduct: RemoteProduct?
+    var managedObjectContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    private init() {
+        persistentContainer = NSPersistentContainer(name: "RemoteProduct")
+        persistentContainer.loadPersistentStores { (description, error) in
+            if let error = error {
+                fatalError("Unable to load persistent stores: \(error)")
+            }
+        }
+    }
+}
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var productImageView: UIImageView!
@@ -19,14 +37,25 @@ class ViewController: UIViewController {
         fetchData()
     }
     @IBAction func addWishList(_ sender: UIButton) {
-        if let product = currentProduct {
-            saveProductToCoreData(product: product)
-        } else {
+        guard let product = DataManager.shared.currentProduct else {
             print("No Product Data to Save")
+            return
         }
+        
+        saveProductToCoreData(product: product)
+//        //중복 여부 확인
+//        if checkDuplicateID(withID: Int64(product.id)) {
+//            print ("Product with ID \(product.id) already exists in Core Data")
+//        } else {
+//            saveProductToCoreData(product: product)
+//        }
+    }
+        
+    @IBAction func showWishList(_ sender: UIButton) {
+        let modalVC = WishListTableViewController()
+        present(modalVC, animated: true, completion: nil)
     }
     
-    var currentProduct: RemoteProduct?
     var persistentContainer: NSPersistentContainer? {
         (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     }
@@ -56,7 +85,7 @@ extension ViewController {
                         print("Decode Product: \(remoteProduct)")
                         
                         DispatchQueue.main.sync {
-                            self.currentProduct = remoteProduct
+                            DataManager.shared.currentProduct = remoteProduct
                             self.updateUI(with: remoteProduct)
                         }
                     } catch {
@@ -118,4 +147,7 @@ extension ViewController {
             print("Failed to Save Product to Core Data: \(error)")
         }
     }
+    
+    //중복값 확인 함수
+
 }
