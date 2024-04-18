@@ -16,6 +16,7 @@
 		6A17AD7D2BCE620500E88D8A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A17AD7B2BCE620500E88D8A /* Model.xcdatamodeld */; };
 		6A17AD812BCE710F00E88D8A /* Product Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A17AD802BCE710F00E88D8A /* Product Data.swift */; };
 		6A17AD852BCFF58E00E88D8A /* WishListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A17AD842BCFF58E00E88D8A /* WishListTableViewController.swift */; };
+		6A17AD872BD1650A00E88D8A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A17AD862BD1650A00E88D8A /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		6A17AD7C2BCE620500E88D8A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		6A17AD802BCE710F00E88D8A /* Product Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Product Data.swift"; sourceTree = "<group>"; };
 		6A17AD842BCFF58E00E88D8A /* WishListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListTableViewController.swift; sourceTree = "<group>"; };
+		6A17AD862BD1650A00E88D8A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 			children = (
 				6A17AD822BCE711900E88D8A /* Model */,
 				6A17AD832BCE9BD500E88D8A /* Controller */,
+				6A17AD882BD18D2200E88D8A /* Delegate */,
 				6A17AD662BCE61E700E88D8A /* WishList */,
 				6A17AD652BCE61E700E88D8A /* Products */,
 			);
@@ -64,8 +67,6 @@
 		6A17AD662BCE61E700E88D8A /* WishList */ = {
 			isa = PBXGroup;
 			children = (
-				6A17AD672BCE61E700E88D8A /* AppDelegate.swift */,
-				6A17AD692BCE61E700E88D8A /* SceneDelegate.swift */,
 				6A17AD702BCE61E800E88D8A /* Assets.xcassets */,
 				6A17AD6D2BCE61E700E88D8A /* Main.storyboard */,
 				6A17AD722BCE61E800E88D8A /* LaunchScreen.storyboard */,
@@ -77,8 +78,9 @@
 		6A17AD822BCE711900E88D8A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6A17AD802BCE710F00E88D8A /* Product Data.swift */,
 				6A17AD7B2BCE620500E88D8A /* Model.xcdatamodeld */,
+				6A17AD802BCE710F00E88D8A /* Product Data.swift */,
+				6A17AD862BD1650A00E88D8A /* DataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -90,6 +92,15 @@
 				6A17AD842BCFF58E00E88D8A /* WishListTableViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		6A17AD882BD18D2200E88D8A /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				6A17AD672BCE61E700E88D8A /* AppDelegate.swift */,
+				6A17AD692BCE61E700E88D8A /* SceneDelegate.swift */,
+			);
+			path = Delegate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,6 +177,7 @@
 				6A17AD852BCFF58E00E88D8A /* WishListTableViewController.swift in Sources */,
 				6A17AD812BCE710F00E88D8A /* Product Data.swift in Sources */,
 				6A17AD6C2BCE61E700E88D8A /* ViewController.swift in Sources */,
+				6A17AD872BD1650A00E88D8A /* DataManager.swift in Sources */,
 				6A17AD682BCE61E700E88D8A /* AppDelegate.swift in Sources */,
 				6A17AD6A2BCE61E700E88D8A /* SceneDelegate.swift in Sources */,
 				6A17AD7D2BCE620500E88D8A /* Model.xcdatamodeld in Sources */,

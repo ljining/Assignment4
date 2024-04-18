@@ -8,65 +8,54 @@
 import UIKit
 import CoreData
 
-class DataManager {
-    static let shared = DataManager()
-    
-    let persistentContainer: NSPersistentContainer
-    var currentProduct: RemoteProduct?
-    var managedObjectContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-    private init() {
-        persistentContainer = NSPersistentContainer(name: "RemoteProduct")
-        persistentContainer.loadPersistentStores { (description, error) in
-            if let error = error {
-                fatalError("Unable to load persistent stores: \(error)")
-            }
-        }
-    }
-}
-
 class ViewController: UIViewController {
+    
+    // MARK: - Outlets
     
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     
+    // MARK: - View Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        fetchData()
+    }
+   
+    // MARK: - Actions
+    
     @IBAction func showRandomProduct(_ sender: UIButton) {
         fetchData()
     }
+    
     @IBAction func addWishList(_ sender: UIButton) {
         guard let product = DataManager.shared.currentProduct else {
             print("No Product Data to Save")
             return
         }
         
-        saveProductToCoreData(product: product)
-//        //중복 여부 확인
-//        if checkDuplicateID(withID: Int64(product.id)) {
-//            print ("Product with ID \(product.id) already exists in Core Data")
-//        } else {
-//            saveProductToCoreData(product: product)
-//        }
+        // 중복 여부 확인
+        if checkDuplicateProduct(product) {
+            print("Product already exists in Core Data")
+        } else {
+            saveProductToCoreData(product: product)
+        }
     }
         
     @IBAction func showWishList(_ sender: UIButton) {
         let modalVC = WishListTableViewController()
         present(modalVC, animated: true, completion: nil)
     }
-    
-    var persistentContainer: NSPersistentContainer? {
-        (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        fetchData()
-    }
 }
 
+// MARK: - Extensions
+
 extension ViewController {
+    
+    // MARK: - Data Handling
     
     func fetchData() {
         // URLSession 인스턴스 생성
@@ -77,7 +66,7 @@ extension ViewController {
         if let url = URL(string: "https://dummyjson.com/products/\(wishListID)" ) {
             let task = session.dataTask(with: url) { (data, response, error) in
                 if let error = error {
-                    print("Error")
+                    print("Error: \(error)")
                 } else if let data = data {
                     do {
                         let decoder = JSONDecoder()
@@ -109,8 +98,8 @@ extension ViewController {
         DispatchQueue.global().async {
             if let imageUrl = URL(string: product.thumbnail){
                 let task = URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
-                    if let error = error { return }
-                    guard let data = data, let image = UIImage(data: data) else { return }
+                    guard let data = data, error == nil else {return}
+                    guard let image = UIImage(data: data) else { return }
                     
                     DispatchQueue.main.async {
                         self.productImageView.image = image
@@ -121,6 +110,7 @@ extension ViewController {
             }
         }
     }
+    // MARK: - Utility Functions
     
     // 가격 1000 단위로 콤마 처리
     func formatPrice(_ price: Double) -> String {
@@ -131,7 +121,7 @@ extension ViewController {
     
     // 현재 상품 정보를 코어 데이터에 저장
     func saveProductToCoreData(product: RemoteProduct) {
-        guard let context = persistentContainer?.viewContext else { return }
+        guard let context = DataManager.shared.persistentContainer?.viewContext else { return }
         
         let newProduct = Product(context: context)
         newProduct.title = product.title
@@ -149,5 +139,18 @@ extension ViewController {
     }
     
     //중복값 확인 함수
-
+    func checkDuplicateProduct(_ product: RemoteProduct) -> Bool {
+        guard let context = DataManager.shared.persistentContainer?.viewContext else { return false }
+        
+        let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title = %@", product.title)
+        
+        do {
+            let count = try context.count(for: fetchRequest)
+            return count > 0
+        } catch {
+            print("Error checking duplicate product: \(error)")
+            return false
+        }
+    }
 }
