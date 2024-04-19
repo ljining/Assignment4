@@ -14,8 +14,6 @@ class WishListTableViewController: UITableViewController {
     
     @IBOutlet weak var wishListTableView: UITableView!
     
-    var products: [Product] = []
-    
     
     // MARK: - View Lifecycle
     
@@ -33,12 +31,12 @@ class WishListTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return products.count
+        return DataManager.shared.products.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath)
-        let product = products[indexPath.row]
+        let product = DataManager.shared.products[indexPath.row]
         
         cell.textLabel?.text = product.title
         cell.detailTextLabel?.text = "\(product.price)"
@@ -71,7 +69,7 @@ extension WishListTableViewController {
             let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
             
             do {
-                products = try context.fetch(fetchRequest)
+                DataManager.shared.products = try context.fetch(fetchRequest)
                 tableView.reloadData()
                 let fetchedProducts = try context.fetch(fetchRequest)
 /*
@@ -92,7 +90,7 @@ extension WishListTableViewController {
         }
         
         func deleteProduct(at indexPath: IndexPath) {
-            let product = products[indexPath.row]
+            let product = DataManager.shared.products[indexPath.row]
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let context = appDelegate.persistentContainer.viewContext
             
@@ -100,7 +98,7 @@ extension WishListTableViewController {
             
             do {
                 try context.save()
-                products.remove(at: indexPath.row)
+                DataManager.shared.products.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             } catch {
                 print("Error deleting product: \(error)")

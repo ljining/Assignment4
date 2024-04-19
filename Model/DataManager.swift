@@ -14,10 +14,11 @@ class DataManager {
     
     var persistentContainer: NSPersistentContainer?
     var currentProduct: RemoteProduct?
-    
+    var products: [Product] = []
     
     private init() {
         self.persistentContainer = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
     }
     
 }
+
