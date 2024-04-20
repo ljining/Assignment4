@@ -95,20 +95,18 @@ extension ViewController {
         priceLabel.text = formatPrice(product.price)
         
         //이미지 로딩 및 업데이트
-        DispatchQueue.global().async {
-            if let imageUrl = URL(string: product.thumbnail){
-                let task = URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
-                    guard let data = data, error == nil else {return}
-                    guard let image = UIImage(data: data) else { return }
+        if let imageUrl = URL(string: product.thumbnail){
+        let task = URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
+                guard let data = data, error == nil else {return}
+                guard let image = UIImage(data: data) else { return }
                     
-                    DispatchQueue.main.async {
-                        self.productImageView.image = image
-                    }
+                DispatchQueue.main.async {
+                    self.productImageView.image = image
                 }
+            }
                 
                 task.resume()
             }
-        }
     }
     // MARK: - Utility Functions
     

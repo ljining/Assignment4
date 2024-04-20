@@ -55,7 +55,7 @@ class WishListTableViewController: UITableViewController {
     
 extension WishListTableViewController {
           
-        //코어 데이터에서 상품 정보 가져오는 함수
+        // 코어 데이터에서 상품 정보 가져오는 함수
         func fetchProducts() {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let context = appDelegate.persistentContainer.viewContext
