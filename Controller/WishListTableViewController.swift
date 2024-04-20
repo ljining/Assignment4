@@ -54,14 +54,7 @@ class WishListTableViewController: UITableViewController {
 // MARK: - Fetching and Deleting Products
     
 extension WishListTableViewController {
-    
-/*
-    // 상품 배열에 중복된 상품이 있는지 검사하는 함수
-        func containsProduct(_ product: Product) -> Bool {
-            return products.contains { $0.title == product.title }
-        }
-*/
-        
+          
         //코어 데이터에서 상품 정보 가져오는 함수
         func fetchProducts() {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -71,24 +64,12 @@ extension WishListTableViewController {
             do {
                 DataManager.shared.products = try context.fetch(fetchRequest)
                 tableView.reloadData()
-                let fetchedProducts = try context.fetch(fetchRequest)
-/*
-                // 중복된 상품이 아닌 경우에만 배열에 추가
-                for product in fetchedProducts {
-                    if !containsProduct(product) {
-                        products.append(product)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-*/
             } catch {
                 print("Error fetching products: \(error)")
             }
         }
         
+        // 상품 정보 셀에서 삭제하는 함수
         func deleteProduct(at indexPath: IndexPath) {
             let product = DataManager.shared.products[indexPath.row]
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
